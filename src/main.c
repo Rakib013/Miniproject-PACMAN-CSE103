@@ -1,9 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 
 void nb_shape();
 void jhn_shape();
 void rakib_shape();
+void delay(int seconds);
 
 int main(){
     int n=3, m=2, chose;
@@ -152,6 +154,7 @@ void nb_shape(){
     printf("\n");
     for(int i=0; i<30; i++){
         for(int j=0; j<50; j++){
+            delay(1);
             if(arr[i][j] == 'X'){
                 printf("\u263A ");
             }else{
@@ -267,6 +270,7 @@ void jhn_shape(){
     printf("\n");
     for(int i=0; i<30; i++){
         for(int j=0; j<60; j++){
+            delay(1);
             if(arr[i][j] == 'X'){
                 printf("\u263A ");
             }else{
@@ -382,6 +386,7 @@ void rakib_shape(){
     printf("\n");
     for(int i=0; i<30; i++){
         for(int j=0; j<60; j++){
+            delay(1);
             if(arr[i][j] == 'X'){
                 printf("\u263A ");
             }else{
@@ -457,4 +462,13 @@ void rakib_shape(){
             printf("\n");
         }
     }
+}
+
+//For time delay
+void delay(int seconds){
+    int milli_seconds = 1000 * seconds;
+  
+    clock_t start_time = clock();
+  
+    while (clock() < start_time + milli_seconds);
 }
