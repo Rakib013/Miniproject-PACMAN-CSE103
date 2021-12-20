@@ -34,10 +34,10 @@ int main(){
         printf("-");
     }
     printf("\n\n\t\t\t\tHere we have three types of game for you.\n");
-    printf("\t\t\t\t\u263a. Easy-(NB-shape)\n");
-    printf("\t\t\t\t\u263a. Medium-(JHN-shane)\n");
-    printf("\t\t\t\t\u263a. Hard-(RAKIB-shape)\n");
-    printf("\n\t\t\t\t Please Enter your choice: ");
+    printf("\t\t\t\t\u263a.1 Easy-(NB-shape)\n");
+    printf("\t\t\t\t\u263a.2 Medium-(JHN-shane)\n");
+    printf("\t\t\t\t\u263a.3 Hard-(RAKIB-shape)\n");
+    printf("\n\t\t\t\t Please Enter your choice (one, two or three: ");
     scanf("%d", &chose);
     if(chose == 1){
         system("clear");
