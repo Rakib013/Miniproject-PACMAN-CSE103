@@ -1,15 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<ncurses.h>
-#include <termios.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/time.h>
-#include <fcntl.h>
-#include <string.h>
-#include <time.h>
+#include<stdbool.h>
+#include<string.h>
+#include<time.h>
 
 #define R 30
 #define C 100
@@ -23,18 +16,11 @@ void input();
 void Naba();
 void Nur();
 void Rakib();
-void HighScore();
 
 void input(){
-    //None blockinge infinite input
-    struct termios oldt, newt;
-    tcgetattr( STDIN_FILENO, &oldt);
-    newt = oldt;
-    newt.c_lflag &= ~(ICANON);
-    tcsetattr( STDIN_FILENO, TCSANOW, &newt);
-    // Direction Change;
     dir = Stop;
-    int ch = getchar();
+    char ch;
+    scanf("%c", &ch);
     if(ch == 'a'){
         dir = LEFT;
     }
@@ -50,12 +36,11 @@ void input(){
     else if(ch == 'x'){
         gameOver = true;
     }
-    tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
 }
 
 
 void intro(){
-    system("clear");
+    system("cls");
     printf("\n\n\n");
     char arr[][80] = {
         {"\t\t             ::============================================================::"},
@@ -85,18 +70,14 @@ void intro(){
     };
     for(int i=0; i<23; i++){
         for(int j=0; j<80; j++){
-            if(i%2==0 && i != 22 && i != 18){
-                printf("\x1b[35m%c\x1b[0m", arr[i][j]);
-            }else{
-                printf("\x1b[33m%c\x1b[0m", arr[i][j]);
-            }
+            printf("%c", arr[i][j]);
         }
         printf("\n");
     }
 }
 
 void play_intro(char *name){
-    system("clear");
+    system("cls");
     printf("\n\n\n");
     char arr[][80] = {
         {"\t\t             ================================================================"},
@@ -136,18 +117,14 @@ void play_intro(char *name){
 
     for(int i=0; i<23; i++){
         for(int j=0; j<80; j++){
-            if(i%2==0 && i != 22 && i != 18){
-                printf("\x1b[33m%c\x1b[0m", arr[i][j]);
-            }else{
-                printf("\x1b[36m%c\x1b[0m", arr[i][j]);
-            }
+            printf("%c", arr[i][j]);
         }
         printf("\n");
     }
 }
 
 void instruction(){
-    system("clear");
+    system("cls");
     char arr[][150] = {
         {"\t______________________________________________________________        _________________________________________________________________"},
         {"\t|              Easy Mode Game Instruction                    |        |                  Medium Mode Game Instruction                 |"},
@@ -189,11 +166,7 @@ void instruction(){
     };
     for(int i=0; i<36; i++){
         for(int j=0; j<150; j++){
-            if(i%2==0){
-                printf("\x1b[33m%c\x1b[0m", arr[i][j]);
-            }else{
-                printf("\x1b[35m%c\x1b[0m", arr[i][j]);
-            }
+            printf("%c", arr[i][j]);
         }
         printf("\n");
     }
@@ -201,13 +174,13 @@ void instruction(){
     int n;
     scanf("%d", &n);
     if(n==0){
-        system("clear");
+        system("cls");
         game();
     }
 }
 
 void about(){
-    system("clear");
+    system("cls");
     printf("\n\n");
     char arr[][80] = {
         {"\t\t\t                   ____________________________________                "},
@@ -245,11 +218,7 @@ void about(){
 
     for(int i=0; i<30; i++){
         for(int j=0; j<80; j++){
-            if(j%2==0 && j != 0){
-                printf("\x1b[33m%c\x1b[0m", arr[i][j]);
-            }else{
-                printf("\x1b[35m%c\x1b[0m", arr[i][j]);
-            }
+            printf("%c", arr[i][j]);
         }
         printf("\n");
     }
@@ -258,99 +227,101 @@ void about(){
     int n;
     scanf("%d", &n);
     if(n==0){
-        system("clear");
+        system("cls");
         game();
     }
 }
 
+
 void HighScore(){
-    system("clear");
-    printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-    printf("\n\t\t\t\t\t\t\t\x1b[35mWhich Mode High Score You Want to see?\x1b[0m\n");
-    printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-    printf("\t\t\t\t\t\t\t\t\x1b[32m01. Easy Mode High Score.\x1b[0m\n");
-    printf("\t\t\t\t\t\t\t\t\x1b[33m02. Medium Mode High Score.\x1b[0m\n");
-    printf("\t\t\t\t\t\t\t\t\x1b[34m03. Hard Mode High Score.\x1b[0m\n");
-    printf("\t\t\t\t\t\t\x1b[36m|=====================================================|\x1b[0m\n");
-    printf("\n\t\t\t\t\t\t\x1b[35mEnter Your Choice: \x1b[0m");
+    system("cls");
+    printf("\n\t\t\t\t\t\t|=====================================================|");
+    printf("\n\t\t\t\t\t\t\tWhich Mode High Score You Want to see?\n");
+    printf("\t\t\t\t\t\t|=====================================================|\n");
+    printf("\t\t\t\t\t\t\t\t01. Easy Mode High Score.\n");
+    printf("\t\t\t\t\t\t\t\t02. Medium Mode High Score.\n");
+    printf("\t\t\t\t\t\t\t\t03. Hard Mode High Score.\n");
+    printf("\t\t\t\t\t\t|=====================================================|\n");
+    printf("\n\t\t\t\t\t\tEnter Your Choice: ");
     int choic;
     scanf("%d", &choic);
     if(choic == 1){
         FILE *f1;
         f1 = fopen("easy_score.txt", "r");
         if(f1 == NULL){
-            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-            printf("\n\t\t\t\t\t\t\t\x1b[35mNo High Score Yet.\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+            printf("\n\t\t\t\t\t\t|======================================================");
+            printf("\n\t\t\t\t\t\t\tNo High Score Yet\n");
+            printf("\t\t\t\t\t\t|======================================================\n");
         }else{
-            system("clear");
+            system("cls");
             char p_name[200];
             while(!feof(f1)){
                 fscanf(f1, "%s %d", p_name, &score);
             }
             fclose(f1);
-            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-            printf("\n\t\t\t\t\t\t\t\t\x1b[35mEasy Mode High Score.\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[33m Player Name                      Score\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[35m %s\t\t\t\t   %d\x1b[0m\n", p_name, score);
-            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+            printf("\n\t\t\t\t\t\t|=====================================================|");
+            printf("\n\t\t\t\t\t\t\t\tEasy Mode High Score.\n");
+            printf("\t\t\t\t\t\t|=====================================================|\n");
+            printf("\t\t\t\t\t\tPlayer Name                        Score\n");
+            printf("\t\t\t\t\t\t%s\t\t\t\t   %d\n", p_name, score);
+            printf("\t\t\t\t\t\t|=====================================================|\n");
         }
     }else if(choic == 2){
         FILE *f1;
         f1 = fopen("medium_score.txt", "r");
         if(f1 == NULL){
-            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-            printf("\n\t\t\t\t\t\t\t\x1b[35mNo High Score Yet.\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+            printf("\n\t\t\t\t\t\t|=====================================================|");
+            printf("\n\t\t\t\t\t\t\tNo High Score Yet.\n");
+            printf("\t\t\t\t\t\t|=====================================================|\n");
         }else{
-            system("clear");
+            system("cls");
             char p_name[200];
             while(!feof(f1)){
                 fscanf(f1, "%s %d", p_name, &score);
             }
             fclose(f1);
-            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-            printf("\n\t\t\t\t\t\t\t\t\x1b[35mMedium Mode High Score.\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[33m Player Name                      Score\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[35m %s\t\t\t\t   %d\x1b[0m\n", p_name, score);
-            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+            printf("\n\t\t\t\t\t\t|=====================================================|");
+            printf("\n\t\t\t\t\t\t\t\tMedium Mode High Score.\n");
+            printf("\t\t\t\t\t\t|=====================================================|\n");
+            printf("\t\t\t\t\t\t Player Name                      Score\n");
+            printf("\t\t\t\t\t\t %s\t\t\t\t   %d\n", p_name, score);
+            printf("\t\t\t\t\t\t|=====================================================|\n");
         }
     }else if(choic == 3){
         FILE *f1;
         f1 = fopen("hard_score.txt", "r");
         if(f1 == NULL){
-            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-            printf("\n\t\t\t\t\t\t\t\x1b[35mNo High Score Yet.\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+            printf("\n\t\t\t\t\t\t|=====================================================|");
+            printf("\n\t\t\t\t\t\t\tNo High Score Yet.\n");
+            printf("\t\t\t\t\t\t|=====================================================|\n");
         }else{
-            system("clear");
+            system("cls");
             char p_name[200];
             while(!feof(f1)){
                 fscanf(f1, "%s %d", p_name, &score);
             }
             fclose(f1);
-            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-            printf("\n\t\t\t\t\t\t\t\t\x1b[35mHard Mode High Score.\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[33m Player Name\t\t\tScore\x1b[0m\n");
-            printf("\t\t\t\t\t\t\x1b[36m %s\t\t\t\t   %d\x1b[0m\n", p_name, score);
-            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+            printf("\n\t\t\t\t\t\t|=====================================================|");
+            printf("\n\t\t\t\t\t\t\t\tHard Mode High Score.\n");
+            printf("\t\t\t\t\t\t|=====================================================|\n");
+            printf("\t\t\t\t\t\t Player Name                      Score\n");
+            printf("\t\t\t\t\t\t %s\t\t\t\t   %d\n", p_name, score);
+            printf("\t\t\t\t\t\t|=====================================================|\n");
         }
     }
-    printf("\n\t\t\t\t\t\t\x1b[36mEnter 0 To Go Back High-Score Menu\x1b[0m");
-    printf("\n\t\t\t\t\t\t\x1b[34mEnter 1 To Go Back Main Menu\n\t\t\t\t\t\t:')\x1b[0m");
+    printf("\n\t\t\t\t\t\tEnter 0 To Go Back High-Score Menu");
+    printf("\n\t\t\t\t\t\tEnter 1 To Go Back Main Menu\n\t\t\t\t\t\t:')");
     int choice;
     scanf("%d", &choice);
     if(choice == 0){
-        system("clear");
+        system("cls");
         HighScore();
     }else if(choice == 1){
-        system("clear");
+        system("cls");
         game();
     }
 }
+
 
 void game(){
     srand(time(NULL));
@@ -360,7 +331,7 @@ void game(){
     printf("\n\n\t\t\tEnter Your Choice: ");
     scanf("%d", &choice);
     if(choice == 1){
-        system("clear");
+        system("cls");
         printf("\n\n\n\n\n\n\t\t\t\t\t\t\tEnter Your Name: ");
         scanf("%s", player_name);
         play_intro(player_name);
@@ -390,7 +361,7 @@ int main(){
 
 // <--------------- Naba Game Loop ---------------------->
 void NB_setup(){
-    system("clear");
+    system("cls");
     gameOver = false;
     n = 4;
     m = 5;
@@ -404,28 +375,7 @@ void NB_draw(char arr[R][C]){
     arr[n][m] = 'X';
     for(int i=0; i<30; i++){
         for(int j=0; j<C; j++){
-            if(arr[i][j] == '#'){
-                printf("\x1b[31m%c\x1b[0m", arr[i][j]);
-            }else if(arr[i][j] == '$'){
-                if(k%2 == 0){
-                    printf("\x1b[33m\u263A\x1b[0m");
-                }else{
-                    printf("\x1b[36m%c\x1b[0m", arr[i][j]);
-                }
-            }else if(arr[i][j] == 'x'){
-                //printf("\033[1;31m\u263A\033[0m");
-                printf("\x1b[31m%c\x1b[0m", arr[i][j]);
-            }else if(arr[i][j] == 'X'){
-                printf("\x1b[34m\u263A\x1b[0m");
-            }else if(j%2 != 0){
-                printf("\x1b[32m%c\x1b[0m", arr[i][j]);
-            }else{
-                if(k%2 == 0){
-                    printf("\x1b[33m%c\x1b[0m", arr[i][j]);
-                }else{
-                    printf("\x1b[35m%c\x1b[0m", arr[i][j]);
-                }
-            }
+            printf("%c", arr[i][j]);
         }
         printf("\n\t\t\t");
     }
@@ -497,7 +447,7 @@ void Naba(char name[20]){
     };
     NB_setup();
     while(!gameOver){
-        system("clear");
+        system("cls");
         printf("\n\t\t\t\t\t\t\t\tEasy Mode\n");
         NB_draw(arr);
         input();
@@ -523,35 +473,35 @@ void Naba(char name[20]){
         }
     }
 
-    system("clear");
-    printf("\x1b[31m\t\t\t                   ____________________________________                \x1b[0m\n");
-    printf("\x1b[32m\t\t\t                   |             PACMAN               |                \x1b[0m\n");
-    printf("\x1b[33m\t\t\t       ____________|__________________________________|________________\x1b[0m\n");
-    printf("\x1b[34m\t\t\t     * |           |                                  |              * |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t    *  |           |     SCORE CARD AND ACTION        |            *   |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t   *___|___________|__________________________________|__________*     |\x1b[0m\n");
-    printf("\x1b[37m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[32m\t\t\t   |   |                    HIGH SCORE: %d                      |     |\x1b[0m\n", highScore);
-    printf("\x1b[33m\t\t\t   |   |                    YOUR SCORE: %d                       |     |\x1b[0m\n", score);
-    printf("\x1b[34m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[37m\t\t\t   |   |                 WHAT DO YOU WANT TO DO?                 |     |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[32m\t\t\t   |   |               ENTER 0 TO CONTINUE THE GAME              |     |\x1b[0m\n");
-    printf("\x1b[33m\t\t\t   |   |             ENTER 1 TO GO BACK THE MAIN MENU            |     |\x1b[0m\n");
-    printf("\x1b[34m\t\t\t   |   |                 ENTER 2 TO EXIT THE GAME                |     |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[37m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[32m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[33m\t\t\t   |___|_________________________________________________________|     |\x1b[0m\n");
-    printf("\x1b[34m\t\t\t   *   |                                                           *   |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t    *  |                                                            *  |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t     * |                                                             * |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t       *_______________________________________________________________|\x1b[0m\n");
+    system("cls");
+    printf("\t\t\t                   ____________________________________                \n");
+    printf("\t\t\t                   |             PACMAN               |                \n");
+    printf("\t\t\t       ____________|__________________________________|________________\n");
+    printf("\t\t\t     * |           |                                  |              * |\n");
+    printf("\t\t\t    *  |           |     SCORE CARD AND ACTION        |            *   |\n");
+    printf("\t\t\t   *___|___________|__________________________________|__________*     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                    HIGH SCORE: %d                      |     |\n", highScore);
+    printf("\t\t\t   |   |                    YOUR SCORE: %d                       |     |\n", score);
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                 WHAT DO YOU WANT TO DO?                 |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |               ENTER 0 TO CONTINUE THE GAME              |     |\n");
+    printf("\t\t\t   |   |             ENTER 1 TO GO BACK THE MAIN MENU            |     |\n");
+    printf("\t\t\t   |   |                 ENTER 2 TO EXIT THE GAME                |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |___|_________________________________________________________|     |\n");
+    printf("\t\t\t   *   |                                                           *   |\n");
+    printf("\t\t\t    *  |                                                            *  |\n");
+    printf("\t\t\t     * |                                                             * |\n");
+    printf("\t\t\t       *_______________________________________________________________|\n");
 
     int n;
     printf("\n\t\t\t\t\tEnter Your Choice: ");
@@ -561,10 +511,10 @@ void Naba(char name[20]){
     }else if(n==1){
         game();
     }else if(n==2){
-        system("clear");
-        printf("\n\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m");
-        printf("\n\t\t\t\t\t\t\t\x1b[35mThank You to playing Pacman.\x1b[0m\n");
-        printf("\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m\n");
+        system("cls");
+        printf("\n\t\t\t\t\t\t|========================================|");
+        printf("\n\t\t\t\t\t\t\t[35mThank You to playing Pacman.\n");
+        printf("\t\t\t\t\t\t|========================================|\n");
     }
 }
 
@@ -573,7 +523,7 @@ void Naba(char name[20]){
 int score, x, y, f=0;
 
 void NR_setup(){
-    system("clear");
+    system("cls");
     gameOver = false;
     x = 20;
     y = 4;
@@ -588,37 +538,7 @@ void NR_draw(char arr[R][C]){
     arr[x][y] = 'X';
     for(int i=0; i<R; i++){
         for(int j=0; j<C; j++){
-            if(arr[i][j] == '#'){
-                printf("\x1b[31m%c\x1b[0m", arr[i][j]);
-            }else if(arr[i][j] == 'x'){
-                printf("\x1b[31m%c\x1b[0m", arr[i][j]);
-            }else if(arr[i][j] == '$'){
-                if(f%2 == 0){
-                    printf("\x1b[33m\u263A\x1b[0m");
-                }else{
-                    printf("\x1b[36m%c\x1b[0m", arr[i][j]);
-                }
-            }else if(arr[i][j] == '&'){
-                printf("\x1b[35m%c\x1b[0m", arr[i][j]);
-            }else if(arr[i][j] == 'x'){
-                printf("\x1b[31m%c\x1b[0m", arr[i][j]);
-            }else if(arr[i][j] == 'X'){
-                printf("\x1b[34m\u263A\x1b[0m");
-            }else if(i%2 == 0 && i!=0){
-                if(f%2 == 0){
-                    printf("\x1b[32m%c\x1b[0m", arr[i][j]);
-                }else {
-                    printf("\x1b[35m%c\x1b[0m", arr[i][j]);
-                }
-            }else if(j!=0 && j%2==0 && j!=92){
-                if(f%2 == 0){
-                    printf("\x1b[35m%c\x1b[0m", arr[i][j]);
-                }else {
-                    printf("\x1b[32m%c\x1b[0m", arr[i][j]);
-                }
-            }else{
-                printf("%c", arr[i][j]);
-            }
+            printf("%c", arr[i][j]);
         }
         printf("\n\t\t\t");
     }
@@ -691,7 +611,7 @@ void Nur(char name[20]){
     };
     NR_setup();
     while(!gameOver){
-        system("clear");
+        system("cls");
         NR_draw(arr);
         input();
         NR_logic(arr);
@@ -717,35 +637,35 @@ void Nur(char name[20]){
     }
 
 
-    system("clear");
-    printf("\x1b[31m\t\t\t                   ____________________________________                \x1b[0m\n");
-    printf("\x1b[32m\t\t\t                   |             PACMAN               |                \x1b[0m\n");
-    printf("\x1b[33m\t\t\t       ____________|__________________________________|________________\x1b[0m\n");
-    printf("\x1b[34m\t\t\t     * |           |                                  |              * |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t    *  |           |     SCORE CARD AND ACTION        |            *   |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t   *___|___________|__________________________________|__________*     |\x1b[0m\n");
-    printf("\x1b[37m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[32m\t\t\t   |   |                    HIGH SCORE: %d                      |     |\x1b[0m\n", highScore);
-    printf("\x1b[33m\t\t\t   |   |                    YOUR SCORE: %d                       |     |\x1b[0m\n", score);
-    printf("\x1b[34m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[37m\t\t\t   |   |                 WHAT DO YOU WANT TO DO?                 |     |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[32m\t\t\t   |   |               ENTER 0 TO CONTINUE THE GAME              |     |\x1b[0m\n");
-    printf("\x1b[33m\t\t\t   |   |             ENTER 1 TO GO BACK THE MAIN MENU            |     |\x1b[0m\n");
-    printf("\x1b[34m\t\t\t   |   |                 ENTER 2 TO EXIT THE GAME                |     |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[37m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[32m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[33m\t\t\t   |___|_________________________________________________________|     |\x1b[0m\n");
-    printf("\x1b[34m\t\t\t   *   |                                                           *   |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t    *  |                                                            *  |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t     * |                                                             * |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t       *_______________________________________________________________|\x1b[0m\n");
+    system("cls");
+    printf("\t\t\t                   ____________________________________                \n");
+    printf("\t\t\t                   |             PACMAN               |                \n");
+    printf("\t\t\t       ____________|__________________________________|________________\n");
+    printf("\t\t\t     * |           |                                  |              * |\n");
+    printf("\t\t\t    *  |           |     SCORE CARD AND ACTION        |            *   |\n");
+    printf("\t\t\t   *___|___________|__________________________________|__________*     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                    HIGH SCORE: %d                      |     |\n", highScore);
+    printf("\t\t\t   |   |                    YOUR SCORE: %d                       |     |\n", score);
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                 WHAT DO YOU WANT TO DO?                 |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |               ENTER 0 TO CONTINUE THE GAME              |     |\n");
+    printf("\t\t\t   |   |             ENTER 1 TO GO BACK THE MAIN MENU            |     |\n");
+    printf("\t\t\t   |   |                 ENTER 2 TO EXIT THE GAME                |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |___|_________________________________________________________|     |\n");
+    printf("\t\t\t   *   |                                                           *   |\n");
+    printf("\t\t\t    *  |                                                            *  |\n");
+    printf("\t\t\t     * |                                                             * |\n");
+    printf("\t\t\t       *_______________________________________________________________|\n");
 
     int n;
     printf("\n\t\t\t\t\tEnter Your Choice: ");
@@ -755,10 +675,10 @@ void Nur(char name[20]){
     }else if(n==1){
         game();
     }else if(n==2){
-        system("clear");
-        printf("\n\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m");
-        printf("\n\t\t\t\t\t\t\t\x1b[35mThank You to playing Pacman.\x1b[0m\n");
-        printf("\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m\n");
+        system("cls");
+        printf("\n\t\t\t\t\t\t|========================================|");
+        printf("\n\t\t\t\t\t\t\tThank You to playing Pacman.\n");
+        printf("\t\t\t\t\t\t|=======================================\n");
     }
 }
 
@@ -768,7 +688,7 @@ int score, x, y, w=0;
 
 
 void RB_setup(){
-    system("clear");
+    system("cls");
     gameOver = false;
     x = 4;
     y = 5;
@@ -783,23 +703,7 @@ void RB_draw(char arr[R][C]){
 
     for(int i=0; i<R; i++){
         for(int j=0; j<C; j++){
-            if(arr[i][j] == 'X'){
-                printf("\x1b[34m\u263A\x1b[0m");
-            }else if(arr[i][j] == 'x' || arr[i][j] == '#'){
-                printf("\x1b[31m%c\x1b[0m", arr[i][j]);
-            }else if(arr[i][j] == '$'){
-                if(w%2 == 0){
-                    printf("\x1b[33m\u263A\x1b[0m");
-                }else{
-                    printf("\x1b[36m%c\x1b[0m", arr[i][j]);
-                }
-            }else{
-                if(j%2 == 0 && j!=0 && j!=99){
-                    printf("\x1b[34m%c\x1b[0m", arr[i][j]);
-                }else{
-                    printf("\x1b[35m%c\x1b[0m", arr[i][j]);
-                }
-            }
+            printf("%c", arr[i][j]);
         }
         printf("\n\t\t\t");
     }
@@ -878,7 +782,7 @@ void Rakib(char name[200]){
 
     RB_setup();
     while(!gameOver){
-        system("clear");
+        system("cls");
         RB_draw(arr);
         input();
         RB_logic(arr);
@@ -903,35 +807,35 @@ void Rakib(char name[200]){
         }
     }
 
-    system("clear");
-    printf("\x1b[31m\t\t\t                   ____________________________________                \x1b[0m\n");
-    printf("\x1b[32m\t\t\t                   |             PACMAN               |                \x1b[0m\n");
-    printf("\x1b[33m\t\t\t       ____________|__________________________________|________________\x1b[0m\n");
-    printf("\x1b[34m\t\t\t     * |           |                                  |              * |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t    *  |           |     SCORE CARD AND ACTION        |            *   |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t   *___|___________|__________________________________|__________*     |\x1b[0m\n");
-    printf("\x1b[37m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[32m\t\t\t   |   |                    HIGH SCORE: %d                      |     |\x1b[0m\n", highScore);
-    printf("\x1b[33m\t\t\t   |   |                    YOUR SCORE: %d                       |     |\x1b[0m\n", score);
-    printf("\x1b[34m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[37m\t\t\t   |   |                 WHAT DO YOU WANT TO DO?                 |     |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[32m\t\t\t   |   |               ENTER 0 TO CONTINUE THE GAME              |     |\x1b[0m\n");
-    printf("\x1b[33m\t\t\t   |   |             ENTER 1 TO GO BACK THE MAIN MENU            |     |\x1b[0m\n");
-    printf("\x1b[34m\t\t\t   |   |                 ENTER 2 TO EXIT THE GAME                |     |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[37m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[32m\t\t\t   |   |                                                         |     |\x1b[0m\n");
-    printf("\x1b[33m\t\t\t   |___|_________________________________________________________|     |\x1b[0m\n");
-    printf("\x1b[34m\t\t\t   *   |                                                           *   |\x1b[0m\n");
-    printf("\x1b[35m\t\t\t    *  |                                                            *  |\x1b[0m\n");
-    printf("\x1b[36m\t\t\t     * |                                                             * |\x1b[0m\n");
-    printf("\x1b[31m\t\t\t       *_______________________________________________________________|\x1b[0m\n");
+    system("cls");
+    printf("\t\t\t                   ____________________________________                \n");
+    printf("\t\t\t                   |             PACMAN               |                \n");
+    printf("\t\t\t       ____________|__________________________________|________________\n");
+    printf("\t\t\t     * |           |                                  |              * |\n");
+    printf("\t\t\t    *  |           |     SCORE CARD AND ACTION        |            *   |\n");
+    printf("\t\t\t   *___|___________|__________________________________|__________*     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                    HIGH SCORE: %d                      |     |\n", highScore);
+    printf("\t\t\t   |   |                    YOUR SCORE: %d                       |     |\n", score);
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                 WHAT DO YOU WANT TO DO?                 |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |               ENTER 0 TO CONTINUE THE GAME              |     |\n");
+    printf("\t\t\t   |   |             ENTER 1 TO GO BACK THE MAIN MENU            |     |\n");
+    printf("\t\t\t   |   |                 ENTER 2 TO EXIT THE GAME                |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |   |                                                         |     |\n");
+    printf("\t\t\t   |___|_________________________________________________________|     |\n");
+    printf("\t\t\t   *   |                                                           *   |\n");
+    printf("\t\t\t    *  |                                                            *  |\n");
+    printf("\t\t\t     * |                                                             * |\n");
+    printf("\t\t\t       *_______________________________________________________________|\n");
 
     int n;
     printf("\n\t\t\t\t\tEnter Your Choice: ");
@@ -941,9 +845,9 @@ void Rakib(char name[200]){
     }else if(n==1){
         game();
     }else if(n==2){
-        system("clear");
-        printf("\n\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m");
-        printf("\n\t\t\t\t\t\t\t\x1b[35mThank You to playing Pacman.\x1b[0m\n");
-        printf("\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m\n");
+        system("cls");
+        printf("\n\t\t\t\t\t\t|========================================|");
+        printf("\n\t\t\t\t\t\t\tThank You to playing Pacman.\n");
+        printf("\t\t\t\t\t\t|========================================|\n");
     }
 }
