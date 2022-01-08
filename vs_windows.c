@@ -1,15 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<ncurses.h>
-#include <termios.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/time.h>
-#include <fcntl.h>
-#include <string.h>
-#include <time.h>
+#include<stdbool.h>
+#include<string.h>
+#include<time.h>
 
 #define R 30
 #define C 100
@@ -23,17 +16,12 @@ void input();
 void Naba();
 void Nur();
 void Rakib();
+void HighScore();
 
 void input(){
-    //None blockinge infinite input
-    struct termios oldt, newt;
-    tcgetattr( STDIN_FILENO, &oldt);
-    newt = oldt;
-    newt.c_lflag &= ~(ICANON);
-    tcsetattr( STDIN_FILENO, TCSANOW, &newt);
-    // Direction Change;
     dir = Stop;
-    int ch = getchar();
+    char ch;
+    scanf("%c", &ch);
     if(ch == 'a'){
         dir = LEFT;
     }
@@ -49,12 +37,11 @@ void input(){
     else if(ch == 'x'){
         gameOver = true;
     }
-    tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
 }
 
 
 void intro(){
-    system("clear");
+    system("cls");
     printf("\n\n\n");
     char arr[][80] = {
         {"\t\t             ::============================================================::"},
@@ -95,7 +82,7 @@ void intro(){
 }
 
 void play_intro(char *name){
-    system("clear");
+    system("cls");
     printf("\n\n\n");
     char arr[][80] = {
         {"\t\t             ================================================================"},
@@ -146,7 +133,7 @@ void play_intro(char *name){
 }
 
 void instruction(){
-    system("clear");
+    system("cls");
     char arr[][150] = {
         {"\t______________________________________________________________        _________________________________________________________________"},
         {"\t|              Easy Mode Game Instruction                    |        |                  Medium Mode Game Instruction                 |"},
@@ -200,13 +187,13 @@ void instruction(){
     int n;
     scanf("%d", &n);
     if(n==0){
-        system("clear");
+        system("cls");
         game();
     }
 }
 
 void about(){
-    system("clear");
+    system("cls");
     printf("\n\n");
     char arr[][80] = {
         {"\t\t\t                   ____________________________________                "},
@@ -257,10 +244,101 @@ void about(){
     int n;
     scanf("%d", &n);
     if(n==0){
-        system("clear");
+        system("cls");
         game();
     }
 }
+
+
+void HighScore(){
+    system("cls");
+    printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
+    printf("\n\t\t\t\t\t\t\t\x1b[35mWhich Mode High Score You Want to see?\x1b[0m\n");
+    printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+    printf("\t\t\t\t\t\t\t\t\x1b[32m01. Easy Mode High Score.\x1b[0m\n");
+    printf("\t\t\t\t\t\t\t\t\x1b[33m02. Medium Mode High Score.\x1b[0m\n");
+    printf("\t\t\t\t\t\t\t\t\x1b[34m03. Hard Mode High Score.\x1b[0m\n");
+    printf("\t\t\t\t\t\t\x1b[36m|=====================================================|\x1b[0m\n");
+    printf("\n\t\t\t\t\t\t\x1b[35mEnter Your Choice: \x1b[0m");
+    int choic;
+    scanf("%d", &choic);
+    if(choic == 1){
+        FILE *f1;
+        f1 = fopen("easy_score.txt", "r");
+        if(f1 == NULL){
+            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
+            printf("\n\t\t\t\t\t\t\t\x1b[35mNo High Score Yet.\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+        }else{
+            system("cls");
+            char p_name[200];
+            while(!feof(f1)){
+                fscanf(f1, "%s %d", p_name, &score);
+            }
+            fclose(f1);
+            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
+            printf("\n\t\t\t\t\t\t\t\t\x1b[35mEasy Mode High Score.\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[33m Player Name                      Score\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[35m %s\t\t\t\t   %d\x1b[0m\n", p_name, score);
+            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+        }
+    }else if(choic == 2){
+        FILE *f1;
+        f1 = fopen("medium_score.txt", "r");
+        if(f1 == NULL){
+            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
+            printf("\n\t\t\t\t\t\t\t\x1b[35mNo High Score Yet.\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+        }else{
+            system("cls");
+            char p_name[200];
+            while(!feof(f1)){
+                fscanf(f1, "%s %d", p_name, &score);
+            }
+            fclose(f1);
+            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
+            printf("\n\t\t\t\t\t\t\t\t\x1b[35mMedium Mode High Score.\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[33m Player Name                      Score\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[35m %s\t\t\t\t   %d\x1b[0m\n", p_name, score);
+            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+        }
+    }else if(choic == 3){
+        FILE *f1;
+        f1 = fopen("hard_score.txt", "r");
+        if(f1 == NULL){
+            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
+            printf("\n\t\t\t\t\t\t\t\x1b[35mNo High Score Yet.\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+        }else{
+            system("cls");
+            char p_name[200];
+            while(!feof(f1)){
+                fscanf(f1, "%s %d", p_name, &score);
+            }
+            fclose(f1);
+            printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
+            printf("\n\t\t\t\t\t\t\t\t\x1b[35mHard Mode High Score.\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[33m Player Name\t\t\tScore\x1b[0m\n");
+            printf("\t\t\t\t\t\t\x1b[36m %s\t\t\t\t   %d\x1b[0m\n", p_name, score);
+            printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
+        }
+    }
+    printf("\n\t\t\t\t\t\t\x1b[36mEnter 0 To Go Back High-Score Menu\x1b[0m");
+    printf("\n\t\t\t\t\t\t\x1b[34mEnter 1 To Go Back Main Menu\n\t\t\t\t\t\t:')\x1b[0m");
+    int choice;
+    scanf("%d", &choice);
+    if(choice == 0){
+        system("cls");
+        HighScore();
+    }else if(choice == 1){
+        system("cls");
+        game();
+    }
+}
+
 
 void game(){
     srand(time(NULL));
@@ -270,7 +348,7 @@ void game(){
     printf("\n\n\t\t\tEnter Your Choice: ");
     scanf("%d", &choice);
     if(choice == 1){
-        system("clear");
+        system("cls");
         printf("\n\n\n\n\n\n\t\t\t\t\t\t\tEnter Your Name: ");
         scanf("%s", player_name);
         play_intro(player_name);
@@ -284,81 +362,7 @@ void game(){
             Rakib(player_name);
         }
     }else if(choice == 2){
-        system("clear");
-        printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-        printf("\n\t\t\t\t\t\t\t\x1b[35mWhich Mode High Score You Want to see?\x1b[0m\n");
-        printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-        printf("\t\t\t\t\t\t\t\t\x1b[32m01. Easy Mode High Score.\x1b[0m\n");
-        printf("\t\t\t\t\t\t\t\t\x1b[33m02. Medium Mode High Score.\x1b[0m\n");
-        printf("\t\t\t\t\t\t\t\t\x1b[34m03. Hard Mode High Score.\x1b[0m\n");
-        printf("\t\t\t\t\t\t\x1b[36m|=====================================================|\x1b[0m\n");
-        printf("\n\t\t\t\t\t\t\x1b[35mEnter Your Choice: \x1b[0m");
-        int choic;
-        scanf("%d", &choic);
-        if(choic == 1){
-            FILE *f1;
-            f1 = fopen("easy_score.txt", "r");
-            if(f1 == NULL){
-                printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-                printf("\n\t\t\t\t\t\t\t\x1b[35mNo High Score Yet.\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-            }else{
-                system("clear");
-                char p_name[200];
-                while(!feof(f1)){
-                    fscanf(f1, "%s %d", p_name, &score);
-                }
-                fclose(f1);
-                printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-                printf("\n\t\t\t\t\t\t\t\t\x1b[35mEasy Mode High Score.\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[33m Player Name                      Score\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[35m %s\t\t\t\t   %d\x1b[0m\n", p_name, score);
-                printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-            }
-        }else if(choic == 2){
-            FILE *f1;
-            f1 = fopen("medium_score.txt", "r");
-            if(f1 == NULL){
-                printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-                printf("\n\t\t\t\t\t\t\t\x1b[35mNo High Score Yet.\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-            }else{
-                system("clear");
-                char p_name[200];
-                while(!feof(f1)){
-                    fscanf(f1, "%s %d", p_name, &score);
-                }
-                fclose(f1);
-                printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-                printf("\n\t\t\t\t\t\t\t\t\x1b[35mMedium Mode High Score.\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[33m Player Name                      Score\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[35m %s\t\t\t\t   %d\x1b[0m\n", p_name, score);
-                printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-            }
-        }else if(choic == 3){
-            FILE *f1;
-            f1 = fopen("hard_score.txt", "r");
-            if(f1 == NULL){
-                printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-                printf("\n\t\t\t\t\t\t\t\x1b[35mNo High Score Yet.\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-            }else{
-                system("clear");
-                char p_name[200];
-                while(!feof(f1)){
-                    fscanf(f1, "%s %d", p_name, &score);
-                }
-                fclose(f1);
-                printf("\n\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m");
-                printf("\n\t\t\t\t\t\t\t\t\x1b[35mHard Mode High Score.\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[33m Player Name                      Score\x1b[0m\n");
-                printf("\t\t\t\t\t\t\x1b[36m %s\t\t\t\t   %d\x1b[0m\n", p_name, score);
-                printf("\t\t\t\t\t\t\x1b[31m|=====================================================|\x1b[0m\n");
-            }
-        }
+        HighScore();
     }else if(choice == 3){
         instruction();
     }else if(choice == 4){
@@ -374,7 +378,7 @@ int main(){
 
 // <--------------- Naba Game Loop ---------------------->
 void NB_setup(){
-    system("clear");
+    system("cls");
     gameOver = false;
     n = 4;
     m = 5;
@@ -480,7 +484,7 @@ void Naba(char name[20]){
     };
     NB_setup();
     while(!gameOver){
-        system("clear");
+        system("cls");
         printf("\n\t\t\t\t\t\t\t\tEasy Mode\n");
         NB_draw(arr);
         input();
@@ -506,7 +510,7 @@ void Naba(char name[20]){
         }
     }
 
-    system("clear");
+    system("cls");
     printf("\x1b[31m\t\t\t                   ____________________________________                \x1b[0m\n");
     printf("\x1b[32m\t\t\t                   |             PACMAN               |                \x1b[0m\n");
     printf("\x1b[33m\t\t\t       ____________|__________________________________|________________\x1b[0m\n");
@@ -544,7 +548,7 @@ void Naba(char name[20]){
     }else if(n==1){
         game();
     }else if(n==2){
-        system("clear");
+        system("cls");
         printf("\n\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m");
         printf("\n\t\t\t\t\t\t\t\x1b[35mThank You to playing Pacman.\x1b[0m\n");
         printf("\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m\n");
@@ -556,7 +560,7 @@ void Naba(char name[20]){
 int score, x, y, f=0;
 
 void NR_setup(){
-    system("clear");
+    system("cls");
     gameOver = false;
     x = 20;
     y = 4;
@@ -674,7 +678,7 @@ void Nur(char name[20]){
     };
     NR_setup();
     while(!gameOver){
-        system("clear");
+        system("cls");
         NR_draw(arr);
         input();
         NR_logic(arr);
@@ -700,7 +704,7 @@ void Nur(char name[20]){
     }
 
 
-    system("clear");
+    system("cls");
     printf("\x1b[31m\t\t\t                   ____________________________________                \x1b[0m\n");
     printf("\x1b[32m\t\t\t                   |             PACMAN               |                \x1b[0m\n");
     printf("\x1b[33m\t\t\t       ____________|__________________________________|________________\x1b[0m\n");
@@ -738,7 +742,7 @@ void Nur(char name[20]){
     }else if(n==1){
         game();
     }else if(n==2){
-        system("clear");
+        system("cls");
         printf("\n\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m");
         printf("\n\t\t\t\t\t\t\t\x1b[35mThank You to playing Pacman.\x1b[0m\n");
         printf("\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m\n");
@@ -751,7 +755,7 @@ int score, x, y, w=0;
 
 
 void RB_setup(){
-    system("clear");
+    system("cls");
     gameOver = false;
     x = 4;
     y = 5;
@@ -861,7 +865,7 @@ void Rakib(char name[200]){
 
     RB_setup();
     while(!gameOver){
-        system("clear");
+        system("cls");
         RB_draw(arr);
         input();
         RB_logic(arr);
@@ -886,7 +890,7 @@ void Rakib(char name[200]){
         }
     }
 
-    system("clear");
+    system("cls");
     printf("\x1b[31m\t\t\t                   ____________________________________                \x1b[0m\n");
     printf("\x1b[32m\t\t\t                   |             PACMAN               |                \x1b[0m\n");
     printf("\x1b[33m\t\t\t       ____________|__________________________________|________________\x1b[0m\n");
@@ -924,7 +928,7 @@ void Rakib(char name[200]){
     }else if(n==1){
         game();
     }else if(n==2){
-        system("clear");
+        system("cls");
         printf("\n\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m");
         printf("\n\t\t\t\t\t\t\t\x1b[35mThank You to playing Pacman.\x1b[0m\n");
         printf("\t\t\t\t\t\t\x1b[31m|========================================|\x1b[0m\n");
