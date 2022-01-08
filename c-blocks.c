@@ -1,14 +1,21 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdbool.h>
-#include<string.h>
-#include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <time.h>
 
 #define R 30
 #define C 100
-int score, n, m, k=0;
+int score, n, m, k = 0;
 bool gameOver = false;
-enum eDirections {Stop=0, LEFT, RIGHT, UP, DOWN};
+enum eDirections
+{
+    Stop = 0,
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN
+};
 enum eDirections dir;
 
 void game();
@@ -17,29 +24,35 @@ void Naba();
 void Nur();
 void Rakib();
 
-void input(){
+void input()
+{
     dir = Stop;
     char ch;
     scanf("%c", &ch);
-    if(ch == 'a'){
+    if (ch == 'a')
+    {
         dir = LEFT;
     }
-    else if(ch == 'd'){
+    else if (ch == 'd')
+    {
         dir = RIGHT;
     }
-    else if(ch == 'w'){
+    else if (ch == 'w')
+    {
         dir = UP;
     }
-    else if(ch == 's'){
+    else if (ch == 's')
+    {
         dir = DOWN;
     }
-    else if(ch == 'x'){
+    else if (ch == 'x')
+    {
         gameOver = true;
     }
 }
 
-
-void intro(){
+void intro()
+{
     system("cls");
     printf("\n\n\n");
     char arr[][80] = {
@@ -66,17 +79,20 @@ void intro(){
         {"\t\t        ::  ::======================================================::  ::"},
         {"\t\t        ::                                                             ::"},
         {"\t\t        ::===========================================================::"},
-        
+
     };
-    for(int i=0; i<23; i++){
-        for(int j=0; j<80; j++){
+    for (int i = 0; i < 23; i++)
+    {
+        for (int j = 0; j < 80; j++)
+        {
             printf("%c", arr[i][j]);
         }
         printf("\n");
     }
 }
 
-void play_intro(char *name){
+void play_intro(char *name)
+{
     system("cls");
     printf("\n\n\n");
     char arr[][80] = {
@@ -103,11 +119,12 @@ void play_intro(char *name){
         {"\t\t        ::  ::======================================================::  ::"},
         {"\t\t        ::                                                             ::"},
         {"\t\t        ::============================================================::"},
-        
+
     };
 
     int n = 43;
-    while(*name!='\0'){
+    while (*name != '\0')
+    {
         arr[1][n] = *name;
         name++;
         n++;
@@ -115,15 +132,18 @@ void play_intro(char *name){
 
     arr[1][n] = '!';
 
-    for(int i=0; i<23; i++){
-        for(int j=0; j<80; j++){
+    for (int i = 0; i < 23; i++)
+    {
+        for (int j = 0; j < 80; j++)
+        {
             printf("%c", arr[i][j]);
         }
         printf("\n");
     }
 }
 
-void instruction(){
+void instruction()
+{
     system("cls");
     char arr[][150] = {
         {"\t______________________________________________________________        _________________________________________________________________"},
@@ -162,10 +182,11 @@ void instruction(){
         {"\t\t\t\t\t|WILL INCREASE 2 IF YOU EAT '&' THEN YOUR SCORE WILL INCREASE|   "},
         {"\t\t\t\t\t|     5 IF YOU EAT '$' THEN YOUR SCORE WILL INCREASE 50.     |   "},
         {"\t\t\t\t\t|                                                            |   "},
-        {"\t\t\t\t\t|____________________________________________________________|   "}
-    };
-    for(int i=0; i<36; i++){
-        for(int j=0; j<150; j++){
+        {"\t\t\t\t\t|____________________________________________________________|   "}};
+    for (int i = 0; i < 36; i++)
+    {
+        for (int j = 0; j < 150; j++)
+        {
             printf("%c", arr[i][j]);
         }
         printf("\n");
@@ -173,13 +194,15 @@ void instruction(){
     printf("\n\t\t\t\t\t\t\tEnter 0 To Go Back: ");
     int n;
     scanf("%d", &n);
-    if(n==0){
+    if (n == 0)
+    {
         system("cls");
         game();
     }
 }
 
-void about(){
+void about()
+{
     system("cls");
     printf("\n\n");
     char arr[][80] = {
@@ -216,8 +239,10 @@ void about(){
 
     };
 
-    for(int i=0; i<30; i++){
-        for(int j=0; j<80; j++){
+    for (int i = 0; i < 30; i++)
+    {
+        for (int j = 0; j < 80; j++)
+        {
             printf("%c", arr[i][j]);
         }
         printf("\n");
@@ -226,14 +251,15 @@ void about(){
     printf("\n\n\t\t\t\t\t\tEnter 0 To Go Back: ");
     int n;
     scanf("%d", &n);
-    if(n==0){
+    if (n == 0)
+    {
         system("cls");
         game();
     }
 }
 
-
-void HighScore(){
+void HighScore()
+{
     system("cls");
     printf("\n\t\t\t\t\t\t|=====================================================|");
     printf("\n\t\t\t\t\t\t\tWhich Mode High Score You Want to see?\n");
@@ -245,17 +271,22 @@ void HighScore(){
     printf("\n\t\t\t\t\t\tEnter Your Choice: ");
     int choic;
     scanf("%d", &choic);
-    if(choic == 1){
+    if (choic == 1)
+    {
         FILE *f1;
         f1 = fopen("easy_score.txt", "r");
-        if(f1 == NULL){
+        if (f1 == NULL)
+        {
             printf("\n\t\t\t\t\t\t|======================================================");
             printf("\n\t\t\t\t\t\t\tNo High Score Yet\n");
             printf("\t\t\t\t\t\t|======================================================\n");
-        }else{
+        }
+        else
+        {
             system("cls");
             char p_name[200];
-            while(!feof(f1)){
+            while (!feof(f1))
+            {
                 fscanf(f1, "%s %d", p_name, &score);
             }
             fclose(f1);
@@ -266,17 +297,23 @@ void HighScore(){
             printf("\t\t\t\t\t\t%s\t\t\t\t   %d\n", p_name, score);
             printf("\t\t\t\t\t\t|=====================================================|\n");
         }
-    }else if(choic == 2){
+    }
+    else if (choic == 2)
+    {
         FILE *f1;
         f1 = fopen("medium_score.txt", "r");
-        if(f1 == NULL){
+        if (f1 == NULL)
+        {
             printf("\n\t\t\t\t\t\t|=====================================================|");
             printf("\n\t\t\t\t\t\t\tNo High Score Yet.\n");
             printf("\t\t\t\t\t\t|=====================================================|\n");
-        }else{
+        }
+        else
+        {
             system("cls");
             char p_name[200];
-            while(!feof(f1)){
+            while (!feof(f1))
+            {
                 fscanf(f1, "%s %d", p_name, &score);
             }
             fclose(f1);
@@ -287,17 +324,23 @@ void HighScore(){
             printf("\t\t\t\t\t\t %s\t\t\t\t   %d\n", p_name, score);
             printf("\t\t\t\t\t\t|=====================================================|\n");
         }
-    }else if(choic == 3){
+    }
+    else if (choic == 3)
+    {
         FILE *f1;
         f1 = fopen("hard_score.txt", "r");
-        if(f1 == NULL){
+        if (f1 == NULL)
+        {
             printf("\n\t\t\t\t\t\t|=====================================================|");
             printf("\n\t\t\t\t\t\t\tNo High Score Yet.\n");
             printf("\t\t\t\t\t\t|=====================================================|\n");
-        }else{
+        }
+        else
+        {
             system("cls");
             char p_name[200];
-            while(!feof(f1)){
+            while (!feof(f1))
+            {
                 fscanf(f1, "%s %d", p_name, &score);
             }
             fclose(f1);
@@ -313,54 +356,70 @@ void HighScore(){
     printf("\n\t\t\t\t\t\tEnter 1 To Go Back Main Menu\n\t\t\t\t\t\t:')");
     int choice;
     scanf("%d", &choice);
-    if(choice == 0){
+    if (choice == 0)
+    {
         system("cls");
         HighScore();
-    }else if(choice == 1){
+    }
+    else if (choice == 1)
+    {
         system("cls");
         game();
     }
 }
 
-
-void game(){
+void game()
+{
     srand(time(NULL));
     char player_name[200];
-    int choice, mode, score=0;
+    int choice, mode, score = 0;
     intro();
     printf("\n\n\t\t\tEnter Your Choice: ");
     scanf("%d", &choice);
-    if(choice == 1){
+    if (choice == 1)
+    {
         system("cls");
         printf("\n\n\n\n\n\n\t\t\t\t\t\t\tEnter Your Name: ");
         scanf("%s", player_name);
         play_intro(player_name);
         printf("\n\n\n\t\t\tWhich Type Of Game You Wanna Play: ");
         scanf("%d", &mode);
-        if(mode == 1){
+        if (mode == 1)
+        {
             Naba(player_name);
-        }else if(mode == 2){
+        }
+        else if (mode == 2)
+        {
             Nur(player_name);
-        }else if(mode == 3){
+        }
+        else if (mode == 3)
+        {
             Rakib(player_name);
         }
-    }else if(choice == 2){
+    }
+    else if (choice == 2)
+    {
         HighScore();
-    }else if(choice == 3){
+    }
+    else if (choice == 3)
+    {
         instruction();
-    }else if(choice == 4){
+    }
+    else if (choice == 4)
+    {
         about();
     }
 }
 
-int main(){
+int main()
+{
     game();
     return 0;
 }
 
-
 // <--------------- Naba Game Loop ---------------------->
-void NB_setup(){
+void NB_setup()
+{
     system("cls");
     gameOver = false;
     n = 4;
@@ -368,51 +427,61 @@ void NB_setup(){
     score = 0;
 }
 
-void NB_draw(char arr[R][C]){
+void NB_draw(char arr[R][C])
+{
     printf("\n\n\t\t\tPRESS X TO QUIT");
     printf("\t\t\t\t\t\t\t\t\t    SCORE: %d\n", score);
     printf("\t\t\t");
     arr[n][m] = 'X';
-    for(int i=0; i<30; i++){
-        for(int j=0; j<C; j++){
+    for (int i = 0; i < 30; i++)
+    {
+        for (int j = 0; j < C; j++)
+        {
             printf("%c", arr[i][j]);
         }
         printf("\n\t\t\t");
     }
 }
 
-void NB_logic(char arr[R][C]){
-    switch(dir){
-        case LEFT:
-            m -= 1;
-            arr[n][m+1] = ' ';
-            break;
-        case RIGHT:
-            m += 1;
-            arr[n][m-1] = ' ';
-            break;
-        case UP:
-            n -= 1;
-            arr[n+1][m] = ' ';
-            break;
-        case DOWN:
-            n +=1;
-            arr[n-1][m] = ' ';
-            break;
-        default:
-            break;
+void NB_logic(char arr[R][C])
+{
+    switch (dir)
+    {
+    case LEFT:
+        m -= 1;
+        arr[n][m + 1] = ' ';
+        break;
+    case RIGHT:
+        m += 1;
+        arr[n][m - 1] = ' ';
+        break;
+    case UP:
+        n -= 1;
+        arr[n + 1][m] = ' ';
+        break;
+    case DOWN:
+        n += 1;
+        arr[n - 1][m] = ' ';
+        break;
+    default:
+        break;
     }
-    if(arr[n][m] == '*'){
+    if (arr[n][m] == '*')
+    {
         score += 2;
-    }else if(arr[n][m] == '$'){
+    }
+    else if (arr[n][m] == '$')
+    {
         score += 50;
     }
-    if(arr[n][m] == '=' || arr[n][m] == '|' || arr[n][m] == '-' || arr[n][m] == '#' || arr[n][m] == 'x' || arr[n][m] == '_'){
+    if (arr[n][m] == '=' || arr[n][m] == '|' || arr[n][m] == '-' || arr[n][m] == '#' || arr[n][m] == 'x' || arr[n][m] == '_')
+    {
         gameOver = true;
     }
 }
 
-void Naba(char name[20]){
+void Naba(char name[20])
+{
     char arr[R][C] = {
         {"___________________________________________|________________________________________________"},
         {"| * * * * * * * * * * * * * * * * * * * *  |  * * * * * * * * * * * * * * * * * * * * *  * |"},
@@ -443,10 +512,10 @@ void Naba(char name[20]){
         {"| *   # # # # #                            |                             # # # # #       * |"},
         {"| *                                        |                                             * |"},
         {"| * * * * * * * * * * * * * * * * * * * *  | * * * * * * * * * * * * * * * * * * * * * * * |"},
-        {"|__________________________________________|_______________________________________________|"}
-    };
+        {"|__________________________________________|_______________________________________________|"}};
     NB_setup();
-    while(!gameOver){
+    while (!gameOver)
+    {
         system("cls");
         printf("\n\t\t\t\t\t\t\t\tEasy Mode\n");
         NB_draw(arr);
@@ -459,16 +528,22 @@ void Naba(char name[20]){
     int highScore;
     char p_name[200];
     f = fopen("easy_score.txt", "r");
-    if(f == NULL){
+    if (f == NULL)
+    {
         printf("Error opening file\n");
-    }else{
+    }
+    else
+    {
         fscanf(f, "%s %d", p_name, &highScore);
-        if(score > highScore){
+        if (score > highScore)
+        {
             fclose(f);
             f = fopen("easy_score.txt", "w");
             fprintf(f, "%s %d", name, score);
             fclose(f);
-        }else{
+        }
+        else
+        {
             fclose(f);
         }
     }
@@ -506,11 +581,16 @@ void Naba(char name[20]){
     int n;
     printf("\n\t\t\t\t\tEnter Your Choice: ");
     scanf("%d", &n);
-    if(n==0){
+    if (n == 0)
+    {
         Naba(name);
-    }else if(n==1){
+    }
+    else if (n == 1)
+    {
         game();
-    }else if(n==2){
+    }
+    else if (n == 2)
+    {
         system("cls");
         printf("\n\t\t\t\t\t\t|========================================|");
         printf("\n\t\t\t\t\t\t\t[35mThank You to playing Pacman.\n");
@@ -520,9 +600,10 @@ void Naba(char name[20]){
 
 // <------------------------------------- Nur Function ------------------------------------------>
 
-int score, x, y, f=0;
+int score, x, y, f = 0;
 
-void NR_setup(){
+void NR_setup()
+{
     system("cls");
     gameOver = false;
     x = 20;
@@ -530,53 +611,65 @@ void NR_setup(){
     score = 0;
 }
 
-
-void NR_draw(char arr[R][C]){
+void NR_draw(char arr[R][C])
+{
     printf("\n\n\t\t\tPRESS X TO QUIT");
     printf("\t\t\t\t\t\t\t\t\t    SCORE: %d\n", score);
     printf("\t\t\t");
     arr[x][y] = 'X';
-    for(int i=0; i<R; i++){
-        for(int j=0; j<C; j++){
+    for (int i = 0; i < R; i++)
+    {
+        for (int j = 0; j < C; j++)
+        {
             printf("%c", arr[i][j]);
         }
         printf("\n\t\t\t");
     }
 }
 
-void NR_logic(char arr[R][C]){
-    switch(dir){
-        case LEFT:
-            y -= 1;
-            arr[x][y+1] = ' ';
-            break;
-        case RIGHT:
-            y += 1;
-            arr[x][y-1] = ' ';
-            break;
-        case UP:
-            x -= 1;
-            arr[x+1][y] = ' ';
-            break;
-        case DOWN:
-            x +=1;
-            arr[x-1][y] = ' ';
-            break;
-        default:
-            break;
+void NR_logic(char arr[R][C])
+{
+    switch (dir)
+    {
+    case LEFT:
+        y -= 1;
+        arr[x][y + 1] = ' ';
+        break;
+    case RIGHT:
+        y += 1;
+        arr[x][y - 1] = ' ';
+        break;
+    case UP:
+        x -= 1;
+        arr[x + 1][y] = ' ';
+        break;
+    case DOWN:
+        x += 1;
+        arr[x - 1][y] = ' ';
+        break;
+    default:
+        break;
     }
-    if(arr[x][y] == '*'){
-        score+=5;
-    }else if(arr[x][y] == '$'){
-        score+=50;
-    }else if(arr[x][y] == '&'){
-        score+=10;
-    }else if(arr[x][y] == '#' || arr[x][y] == 'x' || arr[x][y] == '_' || arr[x][y] == '|' || arr[x][y] == '-'){
+    if (arr[x][y] == '*')
+    {
+        score += 5;
+    }
+    else if (arr[x][y] == '$')
+    {
+        score += 50;
+    }
+    else if (arr[x][y] == '&')
+    {
+        score += 10;
+    }
+    else if (arr[x][y] == '#' || arr[x][y] == 'x' || arr[x][y] == '_' || arr[x][y] == '|' || arr[x][y] == '-')
+    {
         gameOver = true;
     }
 }
 
-void Nur(char name[20]){
+void Nur(char name[20])
+{
     char arr[R][C] = {
         {"______________________________________________|______________________________________________"},
         {"|                                             |                                             |"},
@@ -607,10 +700,10 @@ void Nur(char name[20]){
         {"|     &  * * * * * * *  &  x  |---------|  |  |------------| x  &  * * * * * * *  &         |"},
         {"|     & & & & & & & & & &                  |                    & & & & & & & & & &         |"},
         {"|  x                                       |                                            x   |"},
-        {"|__________________________________________|________________________________________________|"}
-    };
+        {"|__________________________________________|________________________________________________|"}};
     NR_setup();
-    while(!gameOver){
+    while (!gameOver)
+    {
         system("cls");
         NR_draw(arr);
         input();
@@ -622,20 +715,25 @@ void Nur(char name[20]){
     char p_name[200];
     int highScore;
     f = fopen("medium_score.txt", "r");
-    if(f == NULL){
+    if (f == NULL)
+    {
         printf("Error opening file\n");
-    }else{
+    }
+    else
+    {
         fscanf(f, "%s %d", p_name, &highScore);
-        if(score > highScore){
+        if (score > highScore)
+        {
             fclose(f);
             f = fopen("medium_score.txt", "w");
             fprintf(f, "%s %d", name, score);
             fclose(f);
-        }else{
+        }
+        else
+        {
             fclose(f);
         }
     }
-
 
     system("cls");
     printf("\t\t\t                   ____________________________________                \n");
@@ -670,11 +768,16 @@ void Nur(char name[20]){
     int n;
     printf("\n\t\t\t\t\tEnter Your Choice: ");
     scanf("%d", &n);
-    if(n==0){
+    if (n == 0)
+    {
         Nur(name);
-    }else if(n==1){
+    }
+    else if (n == 1)
+    {
         game();
-    }else if(n==2){
+    }
+    else if (n == 2)
+    {
         system("cls");
         printf("\n\t\t\t\t\t\t|========================================|");
         printf("\n\t\t\t\t\t\t\tThank You to playing Pacman.\n");
@@ -684,10 +787,10 @@ void Nur(char name[20]){
 
 // <------------------------- Rakib Function ------------------------->
 
-int score, x, y, w=0;
+int score, x, y, w = 0;
 
-
-void RB_setup(){
+void RB_setup()
+{
     system("cls");
     gameOver = false;
     x = 4;
@@ -695,59 +798,70 @@ void RB_setup(){
     score = 0;
 }
 
-void RB_draw(char arr[R][C]){
+void RB_draw(char arr[R][C])
+{
     printf("\n\n\t\t\tPRESS X TO QUIT");
     printf("\t\t\t\t\t\t\t\t\t\t  SCORE: %d\n", score);
     printf("\t\t\t");
     arr[x][y] = 'X';
 
-    for(int i=0; i<R; i++){
-        for(int j=0; j<C; j++){
+    for (int i = 0; i < R; i++)
+    {
+        for (int j = 0; j < C; j++)
+        {
             printf("%c", arr[i][j]);
         }
         printf("\n\t\t\t");
     }
 }
 
-void RB_logic(char arr[R][C]){
-    switch(dir){
-        case LEFT:
-            y -= 1;
-            arr[x][y+1] = ' ';
-            break;
-        case RIGHT:
-            y += 1;
-            arr[x][y-1] = ' ';
-            break;
-        case UP:
-            x -= 1;
-            arr[x+1][y] = ' ';
-            break;
-        case DOWN:
-            x +=1;
-            arr[x-1][y] = ' ';
-            break;
-        default:
-            break;
+void RB_logic(char arr[R][C])
+{
+    switch (dir)
+    {
+    case LEFT:
+        y -= 1;
+        arr[x][y + 1] = ' ';
+        break;
+    case RIGHT:
+        y += 1;
+        arr[x][y - 1] = ' ';
+        break;
+    case UP:
+        x -= 1;
+        arr[x + 1][y] = ' ';
+        break;
+    case DOWN:
+        x += 1;
+        arr[x - 1][y] = ' ';
+        break;
+    default:
+        break;
     }
 
-    if(arr[x][y] == '*'){
+    if (arr[x][y] == '*')
+    {
         score += 5;
-    }else if(arr[x][y] == '$'){
+    }
+    else if (arr[x][y] == '$')
+    {
         score += 50;
-    }else if(arr[x][y] == '&'){
+    }
+    else if (arr[x][y] == '&')
+    {
         score += 2;
     }
 
-    if(arr[x][y] == '|' || arr[x][y] == '-' || arr[x][y] == '#' || arr[x][y] == '_' || arr[x][y] == 'x'){
+    if (arr[x][y] == '|' || arr[x][y] == '-' || arr[x][y] == '#' || arr[x][y] == '_' || arr[x][y] == 'x')
+    {
         gameOver = true;
     }
-
 }
 
-void Rakib(char name[200]){
+void Rakib(char name[200])
+{
 
-    char arr[R][C]={
+    char arr[R][C] = {
         {"______________________|_______________________________________________|____________________________"},
         {"|                     |                                               *                           |"},
         {"|  # # # # # # # # #  |---*----|---------------------------|------*---| # # # # # # # # # # # # # |"},
@@ -777,11 +891,11 @@ void Rakib(char name[200]){
         {"|*  # # $ $ $ # # #  *| # $ $ #| # $ $ $ $ $ $ $ $ $ $ $ # |  & # $ $ & #  | *  # # $ $ $ # # #  *|"},
         {"|*  # # # # # # # #  *| # $ $ #| # # # # # # # # # # # # # |  & # & # & #  | *  # # # # # # # #  *|"},
         {"|* * * * * * * * * * *| # # # #|---------------------------|  & # & # & #  | * * * * * * * * * * *|"},
-        {"|_____________________|____________________________________________________|______________________|"}
-    };
+        {"|_____________________|____________________________________________________|______________________|"}};
 
     RB_setup();
-    while(!gameOver){
+    while (!gameOver)
+    {
         system("cls");
         RB_draw(arr);
         input();
@@ -793,16 +907,22 @@ void Rakib(char name[200]){
     int highScore;
     char p_name[200];
     f = fopen("hard_score.txt", "r");
-    if(f == NULL){
+    if (f == NULL)
+    {
         printf("Error opening file\n");
-    }else{        
+    }
+    else
+    {
         fscanf(f, "%s %d", p_name, &highScore);
-        if(score > highScore){
+        if (score > highScore)
+        {
             fclose(f);
             f = fopen("hard_score.txt", "w");
             fprintf(f, "%s %d", name, score);
             fclose(f);
-        }else{
+        }
+        else
+        {
             fclose(f);
         }
     }
@@ -840,11 +960,16 @@ void Rakib(char name[200]){
     int n;
     printf("\n\t\t\t\t\tEnter Your Choice: ");
     scanf("%d", &n);
-    if(n==0){
+    if (n == 0)
+    {
         Rakib(name);
-    }else if(n==1){
+    }
+    else if (n == 1)
+    {
         game();
-    }else if(n==2){
+    }
+    else if (n == 2)
+    {
         system("cls");
         printf("\n\t\t\t\t\t\t|========================================|");
         printf("\n\t\t\t\t\t\t\tThank You to playing Pacman.\n");
