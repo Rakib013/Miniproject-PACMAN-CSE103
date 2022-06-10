@@ -1,7 +1,7 @@
 # Miniproject-PACMAN-CSE103
 It's a university project, me and my 2 more friends are developing this project. This is a pacman game logic implimentaion with C.
 
-# <--------------------------------------This is the output you will see if you run the code ------------------------------------>
+ <------This is the output you will see if you run the code-------->
 
 # Welcome page or Menu Page
 
@@ -40,4 +40,9 @@ It's a university project, me and my 2 more friends are developing this project.
 # Hard Mode Platform
 
 ![Screenshot 2022-06-10 at 6 28 51 PM](https://user-images.githubusercontent.com/74490930/173064992-a3b8373a-0085-4cb8-948d-c261f3f0d900.png)
+
+# After finish the game you will see your game score.
+
+![Screenshot 2022-06-10 at 6 29 46 PM](https://user-images.githubusercontent.com/74490930/173065441-1003e23a-44d4-42f6-adf9-8ae69cb038e7.png)
+
 
